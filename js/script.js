@@ -46,41 +46,69 @@ window.addEventListener("DOMContentLoaded", () => {
 
 /* CONTADOR (somente se existir) */
 
-if (document.getElementById("days")) {
-  const now = new Date();
-  const day = now.getDay();
-  const diffToMonday = (8 - day) % 7 || 7;
+/* ================= COUNTDOWN SEGURO ================= */
 
-  const targetDate = new Date();
-  targetDate.setDate(now.getDate() + diffToMonday + 72);
-  targetDate.setHours(0, 0, 0, 0);
+// Função para garantir que os elementos existem
+function getEl(id) {
+  return document.getElementById(id);
+}
+
+// Verifica se existe pelo menos o days (evita rodar em páginas erradas)
+if (getEl("days")) {
+
+  // Data alvo (06 de Maio de 2026 - 00:00:00 GMT-3 Brasil)
+  const targetDate = new Date(Date.UTC(2026, 4, 6, 3, 0, 0));
+  // (3h UTC = 00h no Brasil - GMT-3)
 
   function updateCountdown() {
-    const current = new Date();
-    const diff = targetDate - current;
 
-    if (diff <= 0) return;
+    const now = new Date();
+    const diff = targetDate.getTime() - now.getTime();
 
+    // Se já passou a data → zera tudo
+    if (diff <= 0) {
+      ["days","hours","minutes","seconds"].forEach(id => {
+        const el = getEl(id);
+        if (el) el.textContent = "00";
+      });
+      return;
+    }
+
+    // Cálculos seguros
     const days = Math.floor(diff / (1000 * 60 * 60 * 24));
     const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
     const minutes = Math.floor((diff / (1000 * 60)) % 60);
     const seconds = Math.floor((diff / 1000) % 60);
 
-    document.getElementById("days").textContent = String(days).padStart(2, "0");
-    document.getElementById("hours").textContent = String(hours).padStart(
-      2,
-      "0",
-    );
-    document.getElementById("minutes").textContent = String(minutes).padStart(
-      2,
-      "0",
-    );
-    document.getElementById("seconds").textContent = String(seconds).padStart(
-      2,
-      "0",
-    );
+    // Atualiza DOM com segurança
+    if (getEl("days")) getEl("days").textContent = String(days).padStart(2,"0");
+    if (getEl("hours")) getEl("hours").textContent = String(hours).padStart(2,"0");
+    if (getEl("minutes")) getEl("minutes").textContent = String(minutes).padStart(2,"0");
+    if (getEl("seconds")) getEl("seconds").textContent = String(seconds).padStart(2,"0");
+
   }
 
-  setInterval(updateCountdown, 1000);
+  // Atualização suave
   updateCountdown();
+  setInterval(updateCountdown, 1000);
+
 }
+/* ================= HERO ARM FIXO + SCROLL SUAVE ================= */
+
+window.addEventListener("DOMContentLoaded", () => {
+  const arm = document.querySelector(".hero-arm");
+  const container = document.querySelector(".hero-arm-container");
+
+  if (!arm || !container) return;
+
+  setTimeout(() => {
+    arm.classList.add("visible");
+  }, 800);
+
+  if (window.innerWidth > 768) {
+    window.addEventListener("scroll", () => {
+      const scroll = window.scrollY;
+      container.style.transform = `translateY(${scroll * -0.05}px)`;
+    });
+  }
+});

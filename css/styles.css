@@ -201,7 +201,7 @@ body::before {
 
 .floating {
   position: fixed;
-  bottom: 10%;
+  bottom: 2%;
   right: 5%;
   width: clamp(120px, 15vw, 200px);
   opacity: 0.9;
@@ -251,5 +251,81 @@ body::before {
   }
   .logo-img {
     width: 110px;
+  }
+}
+/* ================= HERO ARM FIXO CANTO ================= */
+
+.hero-arm-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: clamp(280px, 32vw, 500px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero-arm {
+  width: 100%;
+  transform: translate(-25%, 10%);
+  opacity: 0;
+  transition: opacity 1.5s ease;
+}
+
+.hero-arm.visible {
+  opacity: 1;
+}
+
+/* Glow */
+
+.arm-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 40% 60%,
+    rgba(195, 0, 255, 0.5),
+    rgba(0, 255, 136, 0.4),
+    transparent 70%
+  );
+  filter: blur(70px);
+  z-index: -1;
+  animation: glowPulse 4s infinite alternate ease-in-out;
+}
+
+@keyframes glowPulse {
+  from {
+    transform: scale(0.9);
+    opacity: 0.7;
+  }
+  to {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+}
+
+/* GARANTE QUE TEXTO FIQUE NA FRENTE */
+.hero,
+section,
+.header {
+  position: relative;
+  z-index: 2;
+}
+
+/* ===== MOBILE AJUSTADO ===== */
+@media (max-width: 768px) {
+  .hero-arm-container {
+    position: fixed;
+    bottom: -40px;
+    left: -100px;
+    width: 420px;
+    z-index: -1;
+    opacity: 0.55;
+  }
+
+  .hero-arm {
+    transform: rotate(-24deg) scale(1.25);
+  }
+
+  .hero-arm.visible {
+    transform: rotate(-24deg) scale(1.25);
   }
 }
