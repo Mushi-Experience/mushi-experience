@@ -13,7 +13,7 @@ window.addEventListener("scroll", () => {
 
 /* SPLASH COM CLIQUE + ESPERA 4s */
 
-window.addEventListener("DOMContentLoaded", () => {
+/* window.addEventListener("DOMContentLoaded", () => {
   const splash = document.querySelector(".splash");
   const audio = document.getElementById("ritualSound");
 
@@ -42,7 +42,7 @@ window.addEventListener("DOMContentLoaded", () => {
       }, 1500);
     }, 4000); // espera 4 segundos após clique
   });
-});
+});*/
 
 /* CONTADOR (somente se existir) */
 
