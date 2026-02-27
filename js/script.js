@@ -55,19 +55,17 @@ function getEl(id) {
 
 // Verifica se existe pelo menos o days (evita rodar em páginas erradas)
 if (getEl("days")) {
-
   // Data alvo (06 de Maio de 2026 - 00:00:00 GMT-3 Brasil)
   const targetDate = new Date(Date.UTC(2026, 4, 6, 3, 0, 0));
   // (3h UTC = 00h no Brasil - GMT-3)
 
   function updateCountdown() {
-
     const now = new Date();
     const diff = targetDate.getTime() - now.getTime();
 
     // Se já passou a data → zera tudo
     if (diff <= 0) {
-      ["days","hours","minutes","seconds"].forEach(id => {
+      ["days", "hours", "minutes", "seconds"].forEach((id) => {
         const el = getEl(id);
         if (el) el.textContent = "00";
       });
@@ -81,17 +79,19 @@ if (getEl("days")) {
     const seconds = Math.floor((diff / 1000) % 60);
 
     // Atualiza DOM com segurança
-    if (getEl("days")) getEl("days").textContent = String(days).padStart(2,"0");
-    if (getEl("hours")) getEl("hours").textContent = String(hours).padStart(2,"0");
-    if (getEl("minutes")) getEl("minutes").textContent = String(minutes).padStart(2,"0");
-    if (getEl("seconds")) getEl("seconds").textContent = String(seconds).padStart(2,"0");
-
+    if (getEl("days"))
+      getEl("days").textContent = String(days).padStart(2, "0");
+    if (getEl("hours"))
+      getEl("hours").textContent = String(hours).padStart(2, "0");
+    if (getEl("minutes"))
+      getEl("minutes").textContent = String(minutes).padStart(2, "0");
+    if (getEl("seconds"))
+      getEl("seconds").textContent = String(seconds).padStart(2, "0");
   }
 
   // Atualização suave
   updateCountdown();
   setInterval(updateCountdown, 1000);
-
 }
 /* ================= HERO ARM FIXO + SCROLL SUAVE ================= */
 
